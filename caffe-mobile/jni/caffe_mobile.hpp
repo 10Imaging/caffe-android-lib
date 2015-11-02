@@ -8,6 +8,13 @@ using std::string;
 
 namespace caffe {
 
+class caffe_result
+{
+public:
+    int synset;
+    float prob;
+};
+    
 class CaffeMobile
 {
 public:
@@ -16,7 +23,7 @@ public:
 
 	int test(string img_path);
 
-	vector<int> predict_top_k(string img_path, int k=3);
+	vector<caffe_result> predict_top_k(string img_path, int k=3);
 
 private:
 	Net<float> *caffe_net;

@@ -74,12 +74,13 @@ jint JNIEXPORT JNICALL
 Java_com_sh1r0_caffe_1android_1demo_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jstring imgPath)
 {
     const char *img_path = env->GetStringUTFChars(imgPath, 0);
-    caffe::vector<int> top_k = caffe_mobile->predict_top_k(string(img_path), 3);
-    LOGD("top-1 result: %d", top_k[0]);
+    caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(string(img_path), 3);
+    LOGD("top-1 result: %d %f", top_k[0].synset,top_k[0].prob);
 
     env->ReleaseStringUTFChars(imgPath, img_path);
 
-    return top_k[0];
+    //TODO return probability
+    return top_k[0].synset;
 }
 
 int getTimeSec() {
@@ -121,9 +122,9 @@ int main(int argc, char const *argv[])
 
     caffe::LogMessage::Enable(true); // enable logging
     caffe_mobile = new caffe::CaffeMobile(string(argv[1]), string(argv[2]));
-    caffe::vector<int> top_3 = caffe_mobile->predict_top_k(string(argv[3]));
-    for (auto k : top_3) {
-        std::cout << k << std::endl;
+    caffe::vector<caffe::caffe_result> top_3 = caffe_mobile->predict_top_k(string(argv[3]));
+    for (int i=0; i<3; i++){
+        std::cout << top_3[i].synset << std::endl;
     }
     return 0;
 }

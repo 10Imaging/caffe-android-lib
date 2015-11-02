@@ -74,7 +74,17 @@ int CaffeMobile::test(string img_path) {
 	return argmaxs[0];
 }
 
-vector<int> CaffeMobile::predict_top_k(string img_path, int k) {
+vector<caffe_result> create_results(vector<int>indices, vector<float>probs, int k){
+    vector<caffe_result> results(k);
+    for (int i=0; i<k; i++)
+    {
+        results[i].synset = indices[i];
+        results[i].prob = probs[indices[i]];
+    }
+    return results;
+}
+    
+vector<caffe_result> CaffeMobile::predict_top_k(string img_path, int k) {
 	CHECK(caffe_net != NULL);
 
 	Datum datum;
@@ -95,7 +105,8 @@ vector<int> CaffeMobile::predict_top_k(string img_path, int k) {
 	CHECK_LE(k, probs.size());
 	vector<size_t> sorted_index = ordered(probs);
 
-	return vector<int>(sorted_index.begin(), sorted_index.begin() + k);
+    const vector<int> indices = vector<int>(sorted_index.begin(), sorted_index.begin() + k);
+    return create_results(indices,probs,k);
 }
 
 } // namespace caffe
