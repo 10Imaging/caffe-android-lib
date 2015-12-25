@@ -53,14 +53,14 @@ static int start_logger() {
 }
 
 void JNIEXPORT JNICALL
-Java_com_sh1r0_caffe_1android_1demo_CaffeMobile_enableLog(JNIEnv* env, jobject thiz, jboolean enabled)
+Java_com_tenimaging_android_camera0_CaffeMobile_enableLog(JNIEnv* env, jobject thiz, jboolean enabled)
 {
     start_logger();
     caffe::LogMessage::Enable(enabled != JNI_FALSE);
 }
 
 jint JNIEXPORT JNICALL
-Java_com_sh1r0_caffe_1android_1demo_CaffeMobile_loadModel(JNIEnv* env, jobject thiz, jstring modelPath, jstring weightsPath)
+Java_com_tenimaging_android_camera0_CaffeMobile_loadModel(JNIEnv* env, jobject thiz, jstring modelPath, jstring weightsPath)
 {
     const char *model_path = env->GetStringUTFChars(modelPath, 0);
     const char *weights_path = env->GetStringUTFChars(weightsPath, 0);
@@ -71,7 +71,7 @@ Java_com_sh1r0_caffe_1android_1demo_CaffeMobile_loadModel(JNIEnv* env, jobject t
 }
 
 jint JNIEXPORT JNICALL
-Java_com_sh1r0_caffe_1android_1demo_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jstring imgPath)
+Java_com_tenimaging_android_camera0_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jstring imgPath)
 {
     const char *img_path = env->GetStringUTFChars(imgPath, 0);
     caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(string(img_path), 3);
@@ -93,7 +93,7 @@ JavaVM *g_jvm = NULL;
 jobject g_obj = NULL;
 
 void JNIEXPORT JNICALL
-Java_com_sh1r0_caffe_1android_1demo_MainActivity_MainActivity_setJNIEnv(JNIEnv* env, jobject obj)
+Java_com_tenimaging_android_camera0_MainActivity_MainActivity_setJNIEnv(JNIEnv* env, jobject obj)
 {
     env->GetJavaVM(&g_jvm);
     g_obj = env->NewGlobalRef(obj);
