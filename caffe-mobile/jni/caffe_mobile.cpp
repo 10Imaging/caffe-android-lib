@@ -1,5 +1,13 @@
 #include <string>
+#include <android/log.h>
 #include "caffe_mobile.hpp"
+
+#define  LOG_TAG    "CAFFE_MOBILE"
+#define  LOGV(...)  __android_log_print(ANDROID_LOG_VERBOSE,LOG_TAG, __VA_ARGS__)
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG, __VA_ARGS__)
+#define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG, __VA_ARGS__)
+#define  LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG_TAG, __VA_ARGS__)
+#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG, __VA_ARGS__)
 
 using std::string;
 using std::static_pointer_cast;
@@ -83,28 +91,57 @@ vector<caffe_result> create_results(vector<int>indices, vector<float>probs, int 
     }
     return results;
 }
-    
+
 vector<caffe_result> CaffeMobile::predict_top_k(string img_path, int k) {
-	CHECK(caffe_net != NULL);
+    CHECK(caffe_net != NULL);
+        
+    Datum datum;
+    CHECK(ReadImageToDatum(img_path, 0, 256, 256, true, &datum));
+    const shared_ptr<MemoryDataLayer<float>> memory_data_layer =
+        static_pointer_cast<MemoryDataLayer<float>>(caffe_net->layer_by_name("data"));
+    memory_data_layer->AddDatumVector(vector<Datum>({datum}));
+            
+    float loss;
+    vector<Blob<float>* > dummy_bottom_vec;
+    clock_t t_start = clock();
+    const vector<Blob<float>*>& result = caffe_net->Forward(dummy_bottom_vec, &loss);
+    clock_t t_end = clock();
+    LOG(DEBUG) << "Prediction time: " << 1000.0 * (t_end - t_start) / CLOCKS_PER_SEC << " ms.";
+            
+    const vector<float> probs = vector<float>(result[1]->cpu_data(), result[1]->cpu_data() + result[1]->count());
+    CHECK_LE(k, probs.size());
+    vector<size_t> sorted_index = ordered(probs);
+            
+    const vector<int> indices = vector<int>(sorted_index.begin(), sorted_index.begin() + k);
+    return create_results(indices,probs,k);
+}
 
-	Datum datum;
-	CHECK(ReadImageToDatum(img_path, 0, 256, 256, true, &datum));
-	const shared_ptr<MemoryDataLayer<float>> memory_data_layer =
-		static_pointer_cast<MemoryDataLayer<float>>(
-			caffe_net->layer_by_name("data"));
-	memory_data_layer->AddDatumVector(vector<Datum>({datum}));
+//Image in should be RGB (3 channels)
+vector<caffe_result> CaffeMobile::predict_top_k(cv::Mat& cv_img, int k) {
+    CHECK(caffe_net != NULL);
+            
+    Datum datum;
+    cv::Mat cv_img256;
+    
+    //Resize image to 256x256 which is expected by current net
+    cv::resize(cv_img,cv_img256,cv::Size(256,256));
 
-	float loss;
-	vector<Blob<float>* > dummy_bottom_vec;
-	clock_t t_start = clock();
-	const vector<Blob<float>*>& result = caffe_net->Forward(dummy_bottom_vec, &loss);
-	clock_t t_end = clock();
-	LOG(DEBUG) << "Prediction time: " << 1000.0 * (t_end - t_start) / CLOCKS_PER_SEC << " ms.";
-
-	const vector<float> probs = vector<float>(result[1]->cpu_data(), result[1]->cpu_data() + result[1]->count());
-	CHECK_LE(k, probs.size());
-	vector<size_t> sorted_index = ordered(probs);
-
+    CVMatToDatum(cv_img256, &datum);
+    const shared_ptr<MemoryDataLayer<float>> memory_data_layer =
+        static_pointer_cast<MemoryDataLayer<float>>(caffe_net->layer_by_name("data"));
+    memory_data_layer->AddDatumVector(vector<Datum>({datum}));
+                
+    float loss;
+    vector<Blob<float>* > dummy_bottom_vec;
+    clock_t t_start = clock();
+    const vector<Blob<float>*>& result = caffe_net->Forward(dummy_bottom_vec, &loss);
+    clock_t t_end = clock();
+    LOG(DEBUG) << "Prediction time: " << 1000.0 * (t_end - t_start) / CLOCKS_PER_SEC << " ms.";
+                
+    const vector<float> probs = vector<float>(result[1]->cpu_data(), result[1]->cpu_data() + result[1]->count());
+    CHECK_LE(k, probs.size());
+    vector<size_t> sorted_index = ordered(probs);
+                
     const vector<int> indices = vector<int>(sorted_index.begin(), sorted_index.begin() + k);
     return create_results(indices,probs,k);
 }

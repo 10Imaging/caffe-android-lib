@@ -5,8 +5,9 @@
 
 #include "caffe/caffe.hpp"
 #include "caffe_mobile.hpp"
+#include <opencv2/core/core.hpp>
 
-#define  LOG_TAG    "MiRA-CNN"
+#define  LOG_TAG    "CAFFE_JNI"
 #define  LOGV(...)  __android_log_print(ANDROID_LOG_VERBOSE,LOG_TAG, __VA_ARGS__)
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG, __VA_ARGS__)
 #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG, __VA_ARGS__)
@@ -70,14 +71,26 @@ Java_com_tenimaging_android_camera0_CaffeMobile_loadModel(JNIEnv* env, jobject t
     return 0;
 }
 
+    
 jint JNIEXPORT JNICALL
-Java_com_tenimaging_android_camera0_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jstring imgPath)
+Java_com_tenimaging_android_camera0_CaffeMobile_predictImagePath(JNIEnv* env, jobject thiz, jstring imgPath)
 {
     const char *img_path = env->GetStringUTFChars(imgPath, 0);
     caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(string(img_path), 3);
     LOGD("top-1 result: %d %f", top_k[0].synset,top_k[0].prob);
-
+        
     env->ReleaseStringUTFChars(imgPath, img_path);
+    //TODO return probability
+    return top_k[0].synset;
+}
+
+jint JNIEXPORT JNICALL
+Java_com_tenimaging_android_camera0_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jlong cvmat_img)
+{
+    cv::Mat& cv_img = *(cv::Mat*)(cvmat_img);
+    LOGD("rows %d cols %d",cv_img.rows,cv_img.cols);
+    caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(cv_img, 3);
+    LOGD("top-1 result: %d %f", top_k[0].synset,top_k[0].prob);
 
     //TODO return probability
     return top_k[0].synset;
