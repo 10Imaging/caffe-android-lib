@@ -85,14 +85,32 @@ Java_com_tenimaging_android_camera0_CaffeMobile_predictImagePath(JNIEnv* env, jo
 }
 
 jint JNIEXPORT JNICALL
-Java_com_tenimaging_android_camera0_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jlong cvmat_img)
+Java_com_tenimaging_android_camera0_CaffeMobile_predictImage(JNIEnv* env, jobject thiz, jlong cvmat_img, jint numResults, jintArray synsetList, jfloatArray probList)
 {
     cv::Mat& cv_img = *(cv::Mat*)(cvmat_img);
-    LOGD("rows %d cols %d",cv_img.rows,cv_img.cols);
-    caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(cv_img, 3);
+    caffe::vector<caffe::caffe_result> top_k = caffe_mobile->predict_top_k(cv_img, numResults);
     LOGD("top-1 result: %d %f", top_k[0].synset,top_k[0].prob);
 
-    //TODO return probability
+    jint *c_synsetList;
+    c_synsetList = (env)->GetIntArrayElements(synsetList,NULL);
+    jfloat *c_probList;
+    c_probList = (env)->GetFloatArrayElements(probList,NULL);
+    
+    if (c_synsetList == NULL || c_probList == NULL){
+        LOGE("Error getting array");
+        return -1;
+    }
+    
+    for (int i=0; i<numResults; i++)
+    {
+        c_synsetList[i] = top_k[i].synset;
+        c_probList[i]   = top_k[i].prob;
+    }
+    
+    // release the memory so java can have it again
+    (env)->ReleaseIntArrayElements(synsetList, c_synsetList,0);
+    (env)->ReleaseFloatArrayElements(probList, c_probList,0);
+
     return top_k[0].synset;
 }
 
