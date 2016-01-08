@@ -6,10 +6,10 @@
 	url = https://github.com/google/protobuf.git
 [submodule "opencv"]
 	path = opencv
-	url = https://github.com/Itseez/opencv.git
+	url = https://github.com/10imaging/opencv.git
 [submodule "caffe"]
 	path = caffe
-	url = https://github.com/sh1r0/caffe.git
+	url = https://github.com/10imaging/caffe.git
 [submodule "android-cmake"]
 	path = android-cmake
 	url = https://github.com/sh1r0/android-cmake.git
