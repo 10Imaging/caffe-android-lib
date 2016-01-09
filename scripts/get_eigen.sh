@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 
 EIGEN_VER1=3
 EIGEN_VER2=2
@@ -9,7 +9,7 @@ EIGEN_DOWNLOAD_LINK="http://bitbucket.org/eigen/eigen/get/${EIGEN_VER1}.${EIGEN_
 EIGEN_TAR="eigen_${EIGEN_VER1}.${EIGEN_VER2}.${EIGEN_VER3}.tar.bz2"
 EIGEN_DIR=eigen3
 
-WD=$(readlink -f "`dirname $0`/..")
+WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 DOWNLOAD_DIR=${WD}/download
 INSTALL_DIR=${WD}/android_lib
 

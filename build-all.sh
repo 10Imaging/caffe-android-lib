@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 
 if [[ "$OSTYPE" == *darwin* ]] ; then
     # use brew install coreutils for greadlink and gsed
@@ -25,7 +25,7 @@ cd ${WD}
 
 #export DEFAULT_ANDROID_ABI="armeabi-v7a with NEON"
 export DEFAULT_ANDROID_ABI="arm64-v8a"
-export ANDROID_ABI="${ANDROID_ABI:-"armeabi-v7a with NEON"}"
+export ANDROID_ABI="${ANDROID_ABI:-"arm64-v8a"}"
 export USE_OPENBLAS=${USE_OPENBLAS:-0}
 
 if [ ${ANDROID_ABI} == "arm64-v8a" ] ; then

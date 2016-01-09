@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -27,18 +27,17 @@ else
     BIT=x86
 fi
 
-TOOLCHAIN_DIR=$NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/${OS}-${BIT}/bin
+TOOLCHAIN_DIR=$NDK_ROOT/toolchains/$TOOLCHAIN_NAME/prebuilt/${OS}-${BIT}/bin
 WD=$(readlink -f "`dirname $0`/..")
 OPENBLAS_ROOT=${WD}/OpenBLAS
-INSTALL_DIR=${WD}/android_lib
-N_JOBS=8
+INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 cd "${OPENBLAS_ROOT}"
 
 make clean
-make -j${N_JOBS} \
+make -j \
      CC="$TOOLCHAIN_DIR/arm-linux-androideabi-gcc --sysroot=$NDK_ROOT/platforms/android-21/arch-arm" \
-     CROSS_SUFFIX=$TOOLCHAIN_DIR/arm-linux-androideabi- \
+     CROSS_SUFFIX=${TOOLCHAIN_DIR}/${TOOLCHAIN_PREFIX}- \
      HOSTCC=gcc NO_LAPACK=1 TARGET=ARMV7 \
      USE_THREAD=1 NUM_THREADS=8 USE_OPENMP=1
 

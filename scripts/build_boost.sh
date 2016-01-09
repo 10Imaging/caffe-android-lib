@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -10,12 +10,11 @@ else
     NDK_ROOT="${1:-${NDK_ROOT}}"
 fi
 
-ANDROID_ABI=${ANDROID_ABI:-"armeabi-v7a with NEON"}
-WD=$(readlink -f "`dirname $0`/..")
+ANDROID_ABI=${ANDROID_ABI:-"$DEFAULT_ANDROID_ABI"}
+WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 BOOST_ROOT=${WD}/boost
-BUILD_DIR=${BOOST_ROOT}/build
-INSTALL_DIR=${WD}/android_lib
-N_JOBS=8
+BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI}
+INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 cd "${BOOST_ROOT}"
 ./get_boost.sh
@@ -27,14 +26,14 @@ cd "${BUILD_DIR}"
 
 cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_NDK="${NDK_ROOT}" \
-      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
       -DANDROID_ABI="${ANDROID_ABI}" \
       -DANDROID_NATIVE_API_LEVEL=21 \
-      -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.9 \
+      -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/boost" \
-      ..
+      ../..
 
-make -j${N_JOBS}
+make -j
 rm -rf "${INSTALL_DIR}/boost"
 make install/strip
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env sh
+set -ex
 
 OPENBLAS_DOWNLOAD_LINK="http://sourceforge.net/projects/openblas/files/v0.2.8-arm/openblas-v0.2.8-android-rc1.tar.gz/download"
 OPENBLAS_TAR="openblas-v0.2.8-android-rc1.tar.gz"
 OPENBLAS_DIR=openblas-android
 
-WD=$(readlink -f "`dirname $0`/..")
+WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 DOWNLOAD_DIR=${WD}/download
 INSTALL_DIR=${WD}/android_lib
 

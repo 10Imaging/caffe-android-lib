@@ -1,11 +1,10 @@
 #!/usr/bin/env sh
-set -e
+set -ex
 
-WD=$(readlink -f "`dirname $0`/..")
+WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 PROTOBUF_ROOT=${WD}/protobuf
-BUILD_DIR=${PROTOBUF_ROOT}/build_host
-INSTALL_DIR=${WD}/android_lib
-N_JOBS=8
+BUILD_DIR=${PROTOBUF_ROOT}/build_host/${ANDROID_ABI}
+INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 if [ -f "${INSTALL_DIR}/protobuf_host/bin/protoc" ]; then
     echo "Found host protoc"
@@ -18,9 +17,9 @@ cd "${BUILD_DIR}"
 
 cmake -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/protobuf_host" \
       -DBUILD_TESTING=OFF \
-      ../cmake
+      ../../cmake
 
-make -j${N_JOBS}
+make -j
 rm -rf "${INSTALL_DIR}/protobuf_host"
 make install/strip
 
