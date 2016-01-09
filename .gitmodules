@@ -7,6 +7,7 @@
 [submodule "opencv"]
 	path = opencv
 	url = https://github.com/10imaging/opencv.git
+    branch = master
 [submodule "caffe"]
 	path = caffe
 	url = https://github.com/10imaging/caffe.git
