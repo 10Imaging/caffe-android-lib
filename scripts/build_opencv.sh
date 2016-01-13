@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -15,8 +15,8 @@ if [ -d "$_WD/opencv" ] ; then
 else
     export OPENCV_ROOT=${WD}/opencv
 fi
-export OPENCV_BUILD_DIR=$OPENCV_ROOT/platforms/build_android_arm/${ANDROID_ABI}
-export OPENCV_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+export OPENCV_BUILD_DIR=$OPENCV_ROOT/platforms/build_android_arm/${ANDROID_ABI_SHORT}
+export OPENCV_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 [[ -d ${OPENCV_BUILD_DIR} ]] && rm -rf "${OPENCV_BUILD_DIR}"
 mkdir -p "${OPENCV_BUILD_DIR}"

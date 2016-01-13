@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -11,8 +11,8 @@ else
 fi
 
 export PROTOBUF_ROOT=${WD}/protobuf
-export PROTOBUF_BUILD_DIR=${PROTOBUF_ROOT}/build_dir/${ANDROID_ABI}
-export PROTOBUF_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+export PROTOBUF_BUILD_DIR=${PROTOBUF_ROOT}/build_dir/${ANDROID_ABI_SHORT}
+export PROTOBUF_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 rm -rf "${PROTOBUF_BUILD_DIR}"
 mkdir -p "${PROTOBUF_BUILD_DIR}"

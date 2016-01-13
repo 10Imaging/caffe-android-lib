@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -d ${_WD}/protobuf ]; then
     export PROTOBUFHOST_ROOT=${_WD}/protobuf
 else
     export PROTOBUFHOST_ROOT=${WD}/protobuf
 fi
-export PROTOBUFHOST_BUILD_DIR=${PROTOBUFHOST_ROOT}/build_host/${ANDROID_ABI}
-export PROTOBUFHOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+export PROTOBUFHOST_BUILD_DIR=${PROTOBUFHOST_ROOT}/build_host/${ANDROID_ABI_SHORT}
+export PROTOBUFHOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 if [ -f "${PROTOBUFHOST_INSTALL_DIR}/protobuf_host/bin/protoc" ]; then
     echo "Found host protoc"

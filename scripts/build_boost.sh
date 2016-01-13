@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -15,8 +15,8 @@ if [ -d "$_WD/boost" ] ; then
 else
     export BOOST_ROOT=${WD}/boost
 fi
-export BOOST_BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI}
-export BOOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+export BOOST_BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI_SHORT}
+export BOOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 cd "${BOOST_ROOT}"
 ./get_boost.sh

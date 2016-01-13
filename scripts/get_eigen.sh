@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 EIGEN_VER1=3
 EIGEN_VER2=2
@@ -11,7 +11,7 @@ EIGEN_DIR=eigen3
 
 WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 DOWNLOAD_DIR=${WD}/download
-INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 [ ! -d ${INSTALL_DIR} ] && mkdir -p ${INSTALL_DIR}
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 _BRED='\x1b[1m\x1b[31m'
 _BYEL='\x1b[1m\x1b[33m'
@@ -9,7 +9,7 @@ function banner () {
     if [ -n "$1" ]
     then
         echo "***************************************************************"
-        echo -e "$_BYEL$1$_NORM"
+        echo "$_BYEL$1$_NORM"
         echo "***************************************************************"
     fi
 }
@@ -42,42 +42,51 @@ export _WD=$("$READLINK_CMD" -f "`dirname $0/..`")
 export WD=$("$READLINK_CMD" -f "`dirname $0`")
 cd ${PWD}
 
-#export DEFAULT_ANDROID_ABI="armeabi-v7a with NEON"
-export DEFAULT_ANDROID_ABI="arm64-v8a"
-export ANDROID_ABI="${ANDROID_ABI:-"arm64-v8a"}"
-export USE_OPENBLAS=${USE_OPENBLAS:-0}
 
-if [ ${ANDROID_ABI} == "arm64-v8a" ] ; then
-    export TOOLCHAIN_NAME=aarch64-linux-android-4.9
-    export TOOLCHAIN_PREFIX=aarch64-linux-android
-    export TARGET_ARCH=ARMV8A
-else
-    export TOOLCHAIN_NAME=arm-linux-androideabi-4.9
-    export TOOLCHAIN_PREFIX=arm-linux-androideabi
-    export TARGET_ARCH=ARMV7
-fi
+declare -a TARGETS=("armeabi-v7a with NEON" "arm64-v8a")
+declare -a TARGETS_ROOT=("armeabi-v7a" "arm64-v8a")
 
-if [ ${USE_OPENBLAS} -eq 1 ]; then
-    if [ "${ANDROID_ABI}" = "armeabi-v7a-hard-softfp with NEON" ]; then
-        ./scripts/build_openblas_hard.sh
-    elif [ "${ANDROID_ABI}" = "armeabi-v7a with NEON"  ]; then
-        ./scripts/get_openblas.sh
+# build each target
+for (( INDEX=0; INDEX < ${#TARGETS[@]} ; INDEX++ )) ; 
+do
+    export ANDROID_ABI=${TARGETS[$INDEX]}
+    export ANDROID_ABI_SHORT=${TARGETS_ROOT[$INDEX]}
+    export USE_OPENBLAS=${USE_OPENBLAS:-0}
+
+    if [ "${ANDROID_ABI}" == "arm64-v8a" ]; then
+        export TOOLCHAIN_NAME=aarch64-linux-android-4.9
+        export TOOLCHAIN_PREFIX=aarch64-linux-android
+        export TARGET_ARCH=ARMV8A
     else
-        echo "Warning: not support OpenBLAS for ABI: ${ANDROID_ABI}, use Eigen instead"
-        export USE_OPENBLAS=0
+        export TOOLCHAIN_NAME=arm-linux-androideabi-4.9
+        export TOOLCHAIN_PREFIX=arm-linux-androideabi
+        export TARGET_ARCH=ARMV7
+    fi
+
+    banner "Building Android TARGET ${ANDROID_ABI} into ${ANDROID_ABI_ROOT}"
+    
+    if [ ${USE_OPENBLAS} -eq 1 ]; then
+        if [ "${ANDROID_ABI}" = "armeabi-v7a-hard-softfp with NEON" ]; then
+            ./scripts/build_openblas_hard.sh
+        elif [ "${ANDROID_ABI}" = "armeabi-v7a with NEON"  ]; then
+            ./scripts/get_openblas.sh
+        else
+            echo "Warning: not support OpenBLAS for ABI: ${ANDROID_ABI}, use Eigen instead"
+            export USE_OPENBLAS=0
+            ./scripts/get_eigen.sh
+        fi
+    else
         ./scripts/get_eigen.sh
     fi
-else
-    ./scripts/get_eigen.sh
-fi
 
-export BUILD_TYPE=Release
+    export BUILD_TYPE=Release
+    ./scripts/build_boost.sh
+    ./scripts/build_gflags.sh
+    ./scripts/build_opencv.sh
+    ./scripts/build_protobuf_host.sh
+    ./scripts/build_protobuf.sh
+    ./scripts/build_caffe.sh
+    
+    banner "Completed build for ${ANDROID_ABI}"
 
-./scripts/build_boost.sh
-./scripts/build_gflags.sh
-./scripts/build_opencv.sh
-./scripts/build_protobuf_host.sh
-./scripts/build_protobuf.sh
-./scripts/build_caffe.sh
-
-echo "DONE!!"
+done

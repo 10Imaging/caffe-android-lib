@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -18,8 +18,8 @@ if [ -d "$_WD/gflags-2.1.2" ] ; then
 else
     export GFLAGS_ROOT=${WD}/gflags-2.1.2
 fi    
-export GFLAGS_BUILD_DIR=${GFLAGS_ROOT}/build/${ANDROID_ABI}
-export GFLAGS_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+export GFLAGS_BUILD_DIR=${GFLAGS_ROOT}/build/${ANDROID_ABI_SHORT}
+export GFLAGS_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
 [ ! -d ${DOWNLOAD_DIR} ] && mkdir -p ${DOWNLOAD_DIR}
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+[[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
     echo 'Either $NDK_ROOT should be set or provided as argument'
@@ -11,8 +11,8 @@ else
 fi
 
 CAFFE_ROOT=${WD}/caffe
-CAFFE_BUILD_DIR=${CAFFE_ROOT}/build/${ANDROID_ABI}
-ANDROID_LIB_ROOT=${WD}/android_lib/${ANDROID_ABI}
+CAFFE_BUILD_DIR=${CAFFE_ROOT}/build/${ANDROID_ABI_SHORT}
+ANDROID_LIB_ROOT=${WD}/android_lib/${ANDROID_ABI_SHORT}
 OPENCV_HOME=${ANDROID_LIB_ROOT}/opencv/sdk/native/jni
 PROTOBUF_HOME=${ANDROID_LIB_ROOT}/protobuf
 GFLAGS_HOME=${ANDROID_LIB_ROOT}/gflags
