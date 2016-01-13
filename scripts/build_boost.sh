@@ -10,19 +10,21 @@ else
     NDK_ROOT="${1:-${NDK_ROOT}}"
 fi
 
-ANDROID_ABI=${ANDROID_ABI:-"$DEFAULT_ANDROID_ABI"}
-WD=$("$READLINK_CMD" -f "`dirname $0`/..")
-BOOST_ROOT=${WD}/boost
-BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI}
-INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+if [ -d "$_WD/boost" ] ; then
+    export BOOST_ROOT=${_WD}/boost
+else
+    export BOOST_ROOT=${WD}/boost
+fi
+export BOOST_BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI}
+export BOOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 cd "${BOOST_ROOT}"
 ./get_boost.sh
 cd "${WD}"
 
-rm -rf "${BUILD_DIR}"
-mkdir -p "${BUILD_DIR}"
-cd "${BUILD_DIR}"
+rm -rf "${BOOST_BUILD_DIR}"
+mkdir -p "${BOOST_BUILD_DIR}"
+cd "${BOOST_BUILD_DIR}"
 
 cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_NDK="${NDK_ROOT}" \
@@ -30,12 +32,12 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_ABI="${ANDROID_ABI}" \
       -DANDROID_NATIVE_API_LEVEL=21 \
       -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
-      -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/boost" \
+      -DCMAKE_INSTALL_PREFIX="${BOOST_INSTALL_DIR}/boost" \
       ../..
 
 make -j
-rm -rf "${INSTALL_DIR}/boost"
+[[ -d $"{BOOST_INSTALL_DIR}" ]] && rm -rf "${BOOST_INSTALL_DIR}/boost"
 make install/strip
 
 cd "${WD}"
-rm -rf "${BUILD_DIR}"
+rm -rf "${BOOST_BUILD_DIR}"

@@ -10,29 +10,31 @@ else
     NDK_ROOT="${1:-${NDK_ROOT}}"
 fi
 
-ANDROID_ABI=${ANDROID_ABI:-"armeabi-v7a with NEON"}
-LINK="https://github.com/gflags/gflags/archive/v2.1.2.tar.gz"
-TARBALL=gflags_v2.1.2.tar.gz
-WD=$("$READLINK_CMD" -f "`dirname $0`/..")
+GFLAGS_LINK="https://github.com/gflags/gflags/archive/v2.1.2.tar.gz"
+GFLAGS_TARBALL=gflags_v2.1.2.tar.gz
 DOWNLOAD_DIR=${WD}/download
-GFLAGS_ROOT=${WD}/gflags-2.1.2
-BUILD_DIR=${GFLAGS_ROOT}/build/${ANDROID_ABI}
-INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
+if [ -d "$_WD/gflags-2.1.2" ] ; then
+    export GFLAGS_ROOT=${_WD}/gflags-2.1.2
+else
+    export GFLAGS_ROOT=${WD}/gflags-2.1.2
+fi    
+export GFLAGS_BUILD_DIR=${GFLAGS_ROOT}/build/${ANDROID_ABI}
+export GFLAGS_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 [ ! -d ${DOWNLOAD_DIR} ] && mkdir -p ${DOWNLOAD_DIR}
 
 cd ${DOWNLOAD_DIR}
-if [ ! -f ${TARBALL} ]; then
-    wget ${LINK} -O ${TARBALL}
+if [ ! -f ${GFLAGS_TARBALL} ]; then
+    wget ${GFLAGS_LINK} -O ${GFLAGS_TARBALL}
 fi
 
 if [ ! -d ${GFLAGS_ROOT} ]; then
-    tar zxf ${TARBALL} -C "${WD}"
+    tar zxf ${GFLAGS_TARBALL} -C "${WD}"
 fi
 
-rm -rf "${BUILD_DIR}"
-mkdir -p "${BUILD_DIR}"
-cd "${BUILD_DIR}"
+rm -rf "${GFLAGS_BUILD_DIR}"
+mkdir -p "${GFLAGS_BUILD_DIR}"
+cd "${GFLAGS_BUILD_DIR}"
 
 cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_NDK="${NDK_ROOT}" \
@@ -40,11 +42,11 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_ABI="${ANDROID_ABI}" \
       -DANDROID_NATIVE_API_LEVEL=21 \
       -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
-      -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/gflags" \
+      -DCMAKE_INSTALL_PREFIX="${GFLAGS_INSTALL_DIR}/gflags" \
       ../..
 
 make -j
-rm -rf "${INSTALL_DIR}/gflags"
+rm -rf "${GFLAGS_INSTALL_DIR}/gflags"
 make install/strip
 
 cd "${WD}"

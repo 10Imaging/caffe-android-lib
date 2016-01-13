@@ -11,7 +11,7 @@ EIGEN_DIR=eigen3
 
 WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 DOWNLOAD_DIR=${WD}/download
-INSTALL_DIR=${WD}/android_lib
+INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 [ ! -d ${INSTALL_DIR} ] && mkdir -p ${INSTALL_DIR}
 

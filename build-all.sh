@@ -1,6 +1,24 @@
 #!/usr/bin/env sh
 set -ex
 
+_BRED='\x1b[1m\x1b[31m'
+_BYEL='\x1b[1m\x1b[33m'
+_NORM='\x1b[00m'
+
+function banner () {
+    if [ -n "$1" ]
+    then
+        echo "***************************************************************"
+        echo -e "$_BYEL$1$_NORM"
+        echo "***************************************************************"
+    fi
+}
+
+function becho () {
+    [[ -n "$1" ]] && echo -e "$_BRED$1$_NORM"
+}
+
+# only OS X and Linux are supported
 if [[ "$OSTYPE" == *darwin* ]] ; then
     # use brew install coreutils for greadlink and gsed
     export READLINK_CMD='greadlink'
@@ -20,8 +38,9 @@ else
     export NDK_ROOT="${NDK_ROOT}"
 fi
 
-WD=$("$READLINK_CMD" -f "`dirname $0`")
-cd ${WD}
+export _WD=$("$READLINK_CMD" -f "`dirname $0/..`")
+export WD=$("$READLINK_CMD" -f "`dirname $0`")
+cd ${PWD}
 
 #export DEFAULT_ANDROID_ABI="armeabi-v7a with NEON"
 export DEFAULT_ANDROID_ABI="arm64-v8a"
@@ -52,7 +71,7 @@ else
     ./scripts/get_eigen.sh
 fi
 
-export BUILD_TYPE=Debug
+export BUILD_TYPE=Release
 
 ./scripts/build_boost.sh
 ./scripts/build_gflags.sh
