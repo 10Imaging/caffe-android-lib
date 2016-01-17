@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 [[ -n $DEBUG_BUILD ]] && set -ex
 
 if [ -z "$ANDROID_NDK" ] && [ "$#" -eq 0 ]; then

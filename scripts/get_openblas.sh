@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 [[ -n $DEBUG_BUILD ]] && set -ex
 
 OPENBLAS_DOWNLOAD_LINK="http://sourceforge.net/projects/openblas/files/v0.2.8-arm/openblas-v0.2.8-android-rc1.tar.gz/download"
