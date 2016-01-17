@@ -4,17 +4,18 @@ Caffe-Android-Lib
 Porting [caffe](https://github.com/BVLC/caffe) to android platform
 
 ### Support
-* Up-to-date caffe ([03a84bf](https://github.com/BVLC/caffe/commit/03a84bf464dd47bcec9ac943f0229a758c627f05))
 * CPU only
 * Without support for some IO libs (leveldb, lmdb and hdf5)
 
 ## Build
-Tested with Android NDK r10e and cmake 3.2.2 on Ubuntu 14.04
+Tested with Android NDK r10e and cmake 3.4.1 on OS X 10.10.5
 
 ```shell
-git clone --recursive https://github.com/sh1r0/caffe-android-lib.git
+git clone --recursive https://github.com/10imaging/caffe-android-lib.git
 cd caffe-android-lib
 ./build.sh <path/to/ndk>
+or
+./build-all.sh <path/to/ndk>
 ```
 
 ### OpenBLAS

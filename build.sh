@@ -10,14 +10,14 @@ else
     export SED_CMD='sed'
 fi
 
-if [ -z "$NDK_ROOT" ] && [ "$#" -eq 0 ]; then
-    echo 'Either $NDK_ROOT should be set or provided as argument'
-    echo "e.g., 'export NDK_ROOT=/path/to/ndk' or"
+if [ -z "$ANDROID_NDK" ] && [ "$#" -eq 0 ]; then
+    echo 'Either $ANDROID_NDK should be set or provided as argument'
+    echo "e.g., 'export ANDROID_NDK=/path/to/ndk' or"
     echo "      '${0} /path/to/ndk'"
     exit 1
 else
-    NDK_ROOT=$("$READLINK_CMD" -f "${1:-${NDK_ROOT}}")
-    export NDK_ROOT="${NDK_ROOT}"
+    ANDROID_NDK=$("$READLINK_CMD" -f "${1:-${ANDROID_NDK}}")
+    export ANDROID_NDK="${ANDROID_NDK}"
 fi
 
 WD=$("$READLINK_CMD" -f "`dirname $0`")
