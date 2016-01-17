@@ -1,5 +1,8 @@
 Caffe-Android-Lib
 ===============
+## Status
+[![Travis-CI-Build](https://travis-ci.org/10imaging/caffe-android-lib.svg?branch=master)](https://travis-ci.org/10imaging/caffe-android-lib)
+
 ## Goal
 Porting [caffe](https://github.com/BVLC/caffe) to android platform
 
