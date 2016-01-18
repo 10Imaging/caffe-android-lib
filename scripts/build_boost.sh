@@ -35,7 +35,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DCMAKE_INSTALL_PREFIX="${BOOST_INSTALL_DIR}/boost" \
       ../..
 
-make -j
+make -j${BUILD_NUM_CORES}
 [[ -d $"{BOOST_INSTALL_DIR}" ]] && rm -rf "${BOOST_INSTALL_DIR}/boost"
 make install/strip
 

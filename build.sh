@@ -52,6 +52,17 @@ else
     ./scripts/get_eigen.sh
 fi
 
+if [ "${TRAVIS}" == "true" -a "${CI}" == "true" ] ; then
+  export BUILD_NUM_CORES=1
+else
+  if [ "$OSTYPE" == *darwin* ] ; then
+    export BUILD_NUM_CORES=`sysctl -n hw.ncpu`
+  elif [ "$OSTYPE" == *linux* ] ; then
+    export BUILD_NUM_CORES=`nproc`
+  else
+    export BUILD_NUM_CORES=1
+  fi
+fi
 export BUILD_TYPE=Debug
 
 ./scripts/build_boost.sh

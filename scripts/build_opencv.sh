@@ -43,7 +43,7 @@ cmake -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
     -D CMAKE_INSTALL_PREFIX="${OPENCV_INSTALL_DIR}/opencv" \
     ../../..
 
-make -j
+make -j${BUILD_NUM_CORES}
 [[ ${OPENCV_INSTALL_DIR} ]] && rm -rf "${OPENCV_INSTALL_DIR}/opencv"
 make install/strip
 

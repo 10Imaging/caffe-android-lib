@@ -67,7 +67,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DCMAKE_INSTALL_PREFIX="${ANDROID_LIB_ROOT}/caffe" \
       ../..
 
-make -j
+make -j${BUILD_NUM_CORES}
 rm -rf "${ANDROID_LIB_ROOT}/caffe"
 make install/strip
 

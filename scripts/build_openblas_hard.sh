@@ -35,7 +35,7 @@ INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 cd "${OPENBLAS_ROOT}"
 
 make clean
-make -j \
+make -j${BUILD_NUM_CORES} \
      CC="$TOOLCHAIN_DIR/arm-linux-androideabi-gcc --sysroot=$ANDROID_NDK/platforms/android-21/arch-arm" \
      CROSS_SUFFIX=${TOOLCHAIN_DIR}/${TOOLCHAIN_PREFIX}- \
      HOSTCC=gcc NO_LAPACK=1 TARGET=ARMV7 \

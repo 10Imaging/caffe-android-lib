@@ -22,7 +22,7 @@ cmake -DCMAKE_INSTALL_PREFIX="${PROTOBUFHOST_INSTALL_DIR}/protobuf_host" \
       -DBUILD_TESTING=OFF \
       ../../cmake
 
-make -j
+make -j${BUILD_NUM_CORES}
 rm -rf "${PROTOBUFHOST_INSTALL_DIR}/protobuf_host"
 make install/strip
 

@@ -45,7 +45,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DCMAKE_INSTALL_PREFIX="${GFLAGS_INSTALL_DIR}/gflags" \
       ../..
 
-make -j
+make -j${BUILD_NUM_CORES}
 rm -rf "${GFLAGS_INSTALL_DIR}/gflags"
 make install/strip
 

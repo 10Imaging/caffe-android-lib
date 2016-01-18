@@ -28,7 +28,7 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DBUILD_TESTING=OFF \
       ../../cmake
 
-make -j
+make -j${BUILD_NUM_CORES}
 rm -rf "${PROTOBUF_INSTALL_DIR}/protobuf"
 make install/strip
 
