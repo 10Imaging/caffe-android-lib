@@ -4,7 +4,9 @@ before_install:
   # - chmod +x gradlew
   # newest Android NDK
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
-  - export ANDROID_NDK=$HOME/android-ndk-root
+  - export ANDROID_SDK=~/android-sdk-linux
+  - export ANDROID_NDK=~/android-ndk-root
+  - export DEBUG_BUILD=true
   - ls -la
 
 android:
@@ -37,8 +39,6 @@ install:
 
 script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
-  - export ANDROID_SDK=~/android-sdk-linux
-  - export ANDROID_NDK=~/android-ndk-root
   - ./build-all.sh
 
 notifications:
