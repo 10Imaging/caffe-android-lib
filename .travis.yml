@@ -40,3 +40,7 @@ script:
   - export ANDROID_SDK=~/android-sdk-linux
   - export ANDROID_NDK=~/android-ndk-root
   - ./build-all.sh
+
+notifications:
+  email:
+    - builds@10imaging.com
