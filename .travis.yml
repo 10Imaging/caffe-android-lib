@@ -4,10 +4,12 @@ before_install:
   # - chmod +x gradlew
   # newest Android NDK
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
-  - export ANDROID_SDK=~/android-sdk-linux
   - export ANDROID_NDK=~/android-ndk-root
+  - export ANDROID_SDK=${ANDROID_HOME}
   - export DEBUG_BUILD=true
+  - ls -la ${ANDROID_SDK}
   - ls -la
+  - export
 
 android:
   components:
