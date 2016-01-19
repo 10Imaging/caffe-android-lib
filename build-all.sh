@@ -28,7 +28,7 @@ else
     export SED_CMD='sed'
 fi
 
-if [ -z "ANDROID_NDK" ] && [ "$#" -eq 0 ]; then
+if [ -z "${ANDROID_NDK}" ] && [ "$#" -eq 0 ]; then
     echo 'Either $ANDROID_NDK should be set or provided as argument'
     echo "e.g., 'export ANDROID_NDK=/path/to/ndk' or"
     echo "      '${0} /path/to/ndk'"
@@ -38,7 +38,6 @@ else
     export ANDROID_NDK="${ANDROID_NDK}"
 fi
 
-export _WD=$("$READLINK_CMD" -f "`dirname $0/..`")
 export WD=$("$READLINK_CMD" -f "`dirname $0`")
 cd ${PWD}
 

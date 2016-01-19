@@ -10,11 +10,7 @@ else
     ANDROID_NDK="${1:-${ANDROID_NDK}}"
 fi
 
-if [ -d "$_WD/opencv" ] ; then
-    export OPENCV_ROOT=${_WD}/opencv
-else
-    export OPENCV_ROOT=${WD}/opencv
-fi
+export OPENCV_ROOT=${WD}/opencv
 export OPENCV_BUILD_DIR=$OPENCV_ROOT/platforms/build_android_arm/${ANDROID_ABI_SHORT}
 export OPENCV_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 

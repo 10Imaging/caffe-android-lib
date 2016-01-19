@@ -13,11 +13,7 @@ fi
 GFLAGS_LINK="https://github.com/gflags/gflags/archive/v2.1.2.tar.gz"
 GFLAGS_TARBALL=gflags_v2.1.2.tar.gz
 DOWNLOAD_DIR=${WD}/download
-if [ -d "$_WD/gflags-2.1.2" ] ; then
-    export GFLAGS_ROOT=${_WD}/gflags-2.1.2
-else
-    export GFLAGS_ROOT=${WD}/gflags-2.1.2
-fi    
+export GFLAGS_ROOT=${WD}/gflags-2.1.2
 export GFLAGS_BUILD_DIR=${GFLAGS_ROOT}/build/${ANDROID_ABI_SHORT}
 export GFLAGS_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 

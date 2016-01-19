@@ -10,11 +10,7 @@ else
     ANDROID_NDK="${1:-${ANDROID_NDK}}"
 fi
 
-if [ -d "$_WD/boost" ] ; then
-    export BOOST_ROOT=${_WD}/boost
-else
-    export BOOST_ROOT=${WD}/boost
-fi
+export BOOST_ROOT=${WD}/boost
 export BOOST_BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI_SHORT}
 export BOOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
