@@ -42,7 +42,7 @@ install:
 script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
   - ./build-all.sh
-  - cat <home/travis/build/10imaging/caffe-android-lib/gflags-2.1.2/build/armeabi-v7a/TryRunResults.cmake
+  - cat </home/travis/build/10imaging/caffe-android-lib/gflags-2.1.2/build/armeabi-v7a/TryRunResults.cmake
 
 notifications:
   email:
