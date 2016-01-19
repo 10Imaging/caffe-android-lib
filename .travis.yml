@@ -10,7 +10,10 @@ before_install:
   - ls -la ${ANDROID_SDK}
   - ls -la
   - export
-
+addons:
+  apt:
+    packages:
+    - cmake
 android:
   components:
     # The BuildTools version used by your project
@@ -41,6 +44,7 @@ install:
 
 script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
+  - cmake --version 
   - ./build-all.sh
   - cat </home/travis/build/10imaging/caffe-android-lib/gflags-2.1.2/build/armeabi-v7a/TryRunResults.cmake
 
