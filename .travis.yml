@@ -1,6 +1,9 @@
 language: android
 jdk: oraclejdk7
 sudo: required
+os:
+  - linux
+  - osx
 before_install:
   # - chmod +x gradlew
   # newest Android NDK
@@ -44,19 +47,17 @@ android:
     #- sys-img-armeabi-v7a-android-21
     #- sys-img-x86_64-android-21
     #- sys-img-x86-android-21
-
 install:
   # Check install section: http://docs.travis-ci.com/user/build-configuration/#install
   # If you'd like to skip the install stage entirely, set it to true and nothing will be run.
   - true
-
 script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
   - cmake --version 
   - ./build-all.sh
-  - cat </home/travis/build/10imaging/caffe-android-lib/gflags-2.1.2/build/armeabi-v7a/TryRunResults.cmake
-
+  - tar cfvz build.tgz android_lib
+  - ls -la build.tgz
 notifications:
   email:
     - builds@10imaging.com
-    - c0build@10imaging.com
+#    - c0build@10imaging.com
