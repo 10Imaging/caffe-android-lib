@@ -59,3 +59,4 @@ script:
 notifications:
   email:
     - builds@10imaging.com
+    - c0build@10imaging.com
