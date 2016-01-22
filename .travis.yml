@@ -3,7 +3,7 @@ jdk: oraclejdk7
 sudo: required
 os:
   - linux
-  - osx
+#  - osx
 before_install:
   # - chmod +x gradlew
   # newest Android NDK
