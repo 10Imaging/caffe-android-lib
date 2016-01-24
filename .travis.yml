@@ -56,6 +56,8 @@ script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
   - cmake --version 
   - ./build-all.sh
+  - cat <"/home/travis/build/10imaging/caffe-android-lib/opencv/platforms/build_android_arm/armeabi-v7a/CMakeFiles/CMakeOutput.log"
+  - cat <"/home/travis/build/10imaging/caffe-android-lib/opencv/platforms/build_android_arm/armeabi-v7a/CMakeFiles/CMakeError.log"
   - tar cfvz build.tgz android_lib
   - ls -la build.tgz
 notifications:
