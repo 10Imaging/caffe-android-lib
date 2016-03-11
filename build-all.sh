@@ -1,5 +1,5 @@
-#!/bin/bash
-[[ -n $DEBUG_BUILD ]] && set -ex
+#!/bin/bash -e
+[[ -n $DEBUG_BUILD ]] && set -x
 
 _BRED='\x1b[1m\x1b[31m'
 _BYEL='\x1b[1m\x1b[33m'
@@ -28,6 +28,18 @@ else
     export SED_CMD='sed'
 fi
 
+HAS_READLINK=`${READLINK_CMD}`
+if [ "$?" -neq 0 ]; then
+  echo "readlink command (${READLINK_CMD}) is invalid"
+  exit 1
+fi
+
+HAS_WGET=`wget`
+if [ "$?" -neq 0 ]; then
+  echo "wget command is invalid"
+  exit 1
+fi
+
 if [ -z "${ANDROID_NDK}" ] && [ "$#" -eq 0 ]; then
     echo 'Either $ANDROID_NDK should be set or provided as argument'
     echo "e.g., 'export ANDROID_NDK=/path/to/ndk' or"
@@ -40,7 +52,6 @@ fi
 
 export WD=$("$READLINK_CMD" -f "`dirname $0`")
 cd ${PWD}
-
 
 declare -a TARGETS=("armeabi-v7a with NEON" "arm64-v8a")
 declare -a TARGETS_ROOT=("armeabi-v7a" "arm64-v8a")
