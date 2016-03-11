@@ -28,14 +28,14 @@ else
     export SED_CMD='sed'
 fi
 
-HAS_READLINK=`${READLINK_CMD}`
-if [ "$?" -neq 0 ]; then
+HAS_READLINK=`which ${READLINK_CMD}`
+if [ "$HAS_READLINK" == "" ]; then
   echo "readlink command (${READLINK_CMD}) is invalid"
   exit 1
 fi
 
-HAS_WGET=`wget`
-if [ "$?" -neq 0 ]; then
+HAS_WGET=`which wget`
+if [ "$HAS_WGET" == "" ]; then
   echo "wget command is invalid"
   exit 1
 fi
