@@ -10,13 +10,14 @@ else
     ANDROID_NDK="${1:-${ANDROID_NDK}}"
 fi
 
-CAFFE_ROOT=${WD}/caffe
-CAFFE_BUILD_DIR=${CAFFE_ROOT}/build/${ANDROID_ABI_SHORT}
 ANDROID_LIB_ROOT=${WD}/android_lib/${ANDROID_ABI_SHORT}
 OPENCV_HOME=${ANDROID_LIB_ROOT}/opencv/sdk/native/jni
 PROTOBUF_HOME=${ANDROID_LIB_ROOT}/protobuf
 GFLAGS_HOME=${ANDROID_LIB_ROOT}/gflags
 BOOST_HOME=${ANDROID_LIB_ROOT}/boost_1.56.0
+export CAFFE_ROOT=${WD}/caffe
+export CAFFE_BUILD_DIR=${CAFFE_ROOT}/build/${ANDROID_ABI_SHORT}
+export CAFFE_INSTALL_DIR=${ANDROID_LIB_ROOT}/caffe
 
 USE_OPENBLAS=${USE_OPENBLAS:-0}
 if [ ${USE_OPENBLAS} -eq 1 ]; then
@@ -36,12 +37,11 @@ else
     export EIGEN_HOME="${ANDROID_LIB_ROOT}/eigen3"
 fi
 
-
-rm -rf "${CAFFE_BUILD_DIR}"
-mkdir -p "${CAFFE_BUILD_DIR}"
-cd "${CAFFE_BUILD_DIR}"
-
-cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
+if [ -n "${REMAKE_CMAKE}" ] ; then
+  rm -rf "${CAFFE_BUILD_DIR}"
+  mkdir -p "${CAFFE_BUILD_DIR}"
+  cd "${CAFFE_BUILD_DIR}"
+  cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DANDROID_NDK="${ANDROID_NDK}" \
       -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
       -DANDROID_ABI="${ANDROID_ABI}" \
@@ -64,11 +64,13 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
       -DPROTOBUF_PROTOC_EXECUTABLE="${ANDROID_LIB_ROOT}/protobuf_host/bin/protoc" \
       -DPROTOBUF_INCLUDE_DIR="${PROTOBUF_HOME}/include" \
       -DPROTOBUF_LIBRARY="${PROTOBUF_HOME}/lib/libprotobuf.a" \
-      -DCMAKE_INSTALL_PREFIX="${ANDROID_LIB_ROOT}/caffe" \
+      -DCMAKE_INSTALL_PREFIX="${CAFFE_INSTALL_DIR}" \
       ../..
+fi
 
+cd "${CAFFE_BUILD_DIR}"
 make -j${BUILD_NUM_CORES}
-rm -rf "${ANDROID_LIB_ROOT}/caffe"
+[[ -d "${CAFFE_INSTALL_DIR}" ]] && set +e && rm -rf "${CAFFE_INSTALL_DIR}" && set -e
 make install/strip
 
 cd "${WD}"

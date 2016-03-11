@@ -28,6 +28,25 @@ else
     export SED_CMD='sed'
 fi
 
+export -n REMAKE_CMAKE
+for i in "$@"
+do
+case $i in
+    clean)
+    export REMAKE_CMAKE=true
+    shift
+    ;;
+    -t=*|--targets=*)
+    BUILD_ABIS="${i#*=}"
+    shift
+    ;;
+    -h|--help|*)
+    echo "`basename $0` - [clean] remake cmake files [-a=,--abi=] x68,arm7,arm7h,arm8,mips"
+    exit 0
+    ;;
+esac
+done
+
 HAS_READLINK=`which ${READLINK_CMD}`
 if [ "$HAS_READLINK" == "" ]; then
   echo "readlink command (${READLINK_CMD}) is invalid"

@@ -12,25 +12,26 @@ fi
 
 export PROTOBUF_ROOT=${WD}/protobuf
 export PROTOBUF_BUILD_DIR=${PROTOBUF_ROOT}/build_dir/${ANDROID_ABI_SHORT}
-export PROTOBUF_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
+export PROTOBUF_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}/protobuf
 
-rm -rf "${PROTOBUF_BUILD_DIR}"
-mkdir -p "${PROTOBUF_BUILD_DIR}"
+if [ -n "${REMAKE_CMAKE}" ] ; then
+  rm -rf "${PROTOBUF_BUILD_DIR}"
+  mkdir -p "${PROTOBUF_BUILD_DIR}"
+  cd "${PROTOBUF_BUILD_DIR}"
+  cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
+        -DANDROID_NDK=${ANDROID_NDK} \
+        -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+        -DANDROID_ABI="${ANDROID_ABI}" \
+        -DANDROID_NATIVE_API_LEVEL=21 \
+        -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
+        -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_DIR} \
+        -DBUILD_TESTING=OFF \
+        ../../cmake
+fi
+
 cd "${PROTOBUF_BUILD_DIR}"
-
-cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
-      -DANDROID_NDK=${ANDROID_NDK} \
-      -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-      -DANDROID_ABI="${ANDROID_ABI}" \
-      -DANDROID_NATIVE_API_LEVEL=21 \
-      -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
-      -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_DIR}/protobuf \
-      -DBUILD_TESTING=OFF \
-      ../../cmake
-
 make -j${BUILD_NUM_CORES}
-rm -rf "${PROTOBUF_INSTALL_DIR}/protobuf"
+[[ -d "${PROTOBUF_INSTALL_DIR}" ]] && set +e && rm -rf "${PROTOBUF_INSTALL_DIR}" && set -e
 make install/strip
 
 cd "${WD}"
-rm -rf ${PROTOBUF_BUILD_DIR}
