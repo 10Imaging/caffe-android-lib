@@ -1,5 +1,5 @@
-#!/bin/bash
-[[ -n $DEBUG_BUILD ]] && set -ex
+#!/bin/bash -e
+[[ -n $DEBUG_BUILD ]] && set -x
 
 export PROTOBUFHOST_ROOT=${WD}/protobuf
 export PROTOBUFHOST_BUILD_DIR=${PROTOBUFHOST_ROOT}/build_host/${ANDROID_ABI_SHORT}

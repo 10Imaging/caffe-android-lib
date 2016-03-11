@@ -1,5 +1,5 @@
-#!/bin/bash
-[[ -n $DEBUG_BUILD ]] && set -ex
+#!/bin/bash -e
+[[ -n $DEBUG_BUILD ]] && set -x
 
 EIGEN_VER1=3
 EIGEN_VER2=2

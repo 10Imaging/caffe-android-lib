@@ -1,5 +1,5 @@
-#!/bin/bash
-[[ -n $DEBUG_BUILD ]] && set -ex
+#!/bin/bash -e
+[[ -n $DEBUG_BUILD ]] && set -x
 
 OPENBLAS_DOWNLOAD_LINK="http://sourceforge.net/projects/openblas/files/v0.2.8-arm/openblas-v0.2.8-android-rc1.tar.gz/download"
 OPENBLAS_TAR="openblas-v0.2.8-android-rc1.tar.gz"

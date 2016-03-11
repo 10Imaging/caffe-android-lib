@@ -1,5 +1,5 @@
-#!/bin/bash
-[[ -n $DEBUG_BUILD ]] && set -ex
+#!/bin/bash -e
+[[ -n $DEBUG_BUILD ]] && set -x
 
 if [ -z "$ANDROID_NDK" ] && [ "$#" -eq 0 ]; then
     echo 'Either $ANDROID_NDK should be set or provided as argument'
