@@ -14,7 +14,9 @@ export OPENCV_ROOT=${WD}/opencv
 export OPENCV_BUILD_DIR=$OPENCV_ROOT/platforms/build_android_arm/${ANDROID_ABI_SHORT}
 export OPENCV_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}
 
+set +e
 [[ -d ${OPENCV_BUILD_DIR} ]] && rm -rf "${OPENCV_BUILD_DIR}"
+set -e
 mkdir -p "${OPENCV_BUILD_DIR}"
 cd "${OPENCV_BUILD_DIR}"
 

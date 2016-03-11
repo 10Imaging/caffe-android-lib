@@ -92,9 +92,9 @@ do
     if [ "${TRAVIS}" == "true" -a "${CI}" == "true" ] ; then
       export BUILD_NUM_CORES=1
     else
-      if [ "$OSTYPE" == *darwin* ] ; then
+      if [[ "$OSTYPE" == *darwin* ]] ; then
         export BUILD_NUM_CORES=`sysctl -n hw.ncpu`
-      elif [ "$OSTYPE" == *linux* ] ; then
+      elif [[ "$OSTYPE" == *linux* ]] ; then
         export BUILD_NUM_CORES=`nproc`
       else
         export BUILD_NUM_CORES=1
@@ -102,9 +102,9 @@ do
     fi
     export BUILD_TYPE=Release
 
-    ./scripts/build_boost.sh
-    ./scripts/build_gflags.sh
-    ./scripts/build_opencv.sh
+    #./scripts/build_boost.sh
+    #./scripts/build_gflags.sh
+    #./scripts/build_opencv.sh
     ./scripts/build_protobuf_host.sh
     ./scripts/build_protobuf.sh
     ./scripts/build_caffe.sh
