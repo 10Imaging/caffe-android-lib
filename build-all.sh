@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 [[ -n $DEBUG_BUILD ]] && set -x
 
 _BRED='\x1b[1m\x1b[31m'
