@@ -15,13 +15,11 @@ before_install:
   #- make
   #- sudo make install
   #- cd ..
-  - brew switch cmake 3.4.1
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
   - export ANDROID_NDK=~/android-ndk-root
   - export ANDROID_SDK=${ANDROID_HOME}
   - export DEBUG_BUILD=true
-  - ls -la ${ANDROID_SDK}
-  - ls -la
+  - brew switch cmake 3.4.1
   - export
 addons:
   apt:
@@ -56,7 +54,7 @@ install:
 script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
   - cmake --version 
-  - ./build-all.sh
+  - ./build-all.sh clean
   - ls -laR build
 notifications:
   email:
