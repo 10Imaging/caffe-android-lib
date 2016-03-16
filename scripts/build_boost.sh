@@ -12,7 +12,7 @@ fi
 
 export BOOST_ROOT=${WD}/boost
 export BOOST_BUILD_DIR=${BOOST_ROOT}/build/${ANDROID_ABI_SHORT}
-export BOOST_INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI_SHORT}/boost
+export BOOST_INSTALL_DIR=${BUILD_ROOT_ABI}/boost
 
 cd "${BOOST_ROOT}"
 ./get_boost.sh

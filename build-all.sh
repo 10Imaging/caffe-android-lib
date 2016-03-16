@@ -78,9 +78,11 @@ declare -a TARGETS_ROOT=("armeabi-v7a" "arm64-v8a")
 # build each target
 for (( INDEX=0; INDEX < ${#TARGETS[@]} ; INDEX++ )) ; 
 do
+    export BUILD_ROOT=${WD}/build
     export ANDROID_ABI=${TARGETS[$INDEX]}
     export ANDROID_ABI_SHORT=${TARGETS_ROOT[$INDEX]}
     export USE_OPENBLAS=${USE_OPENBLAS:-0}
+    export BUILD_ROOT_ABI=${BUILD_ROOT}/${ANDROID_ABI_SHORT}
 
     if [ "${ANDROID_ABI}" == "arm64-v8a" ]; then
         export TOOLCHAIN_NAME=aarch64-linux-android-4.9
@@ -92,7 +94,7 @@ do
         export TARGET_ARCH=ARMV7
     fi
 
-    banner "Building Android TARGET ${ANDROID_ABI} into ${ANDROID_ABI_ROOT}"
+    banner "Building Android TARGET ${ANDROID_ABI} into ${BUILD_ROOT_ABI}"
     
     if [ ${USE_OPENBLAS} -eq 1 ]; then
         if [ "${ANDROID_ABI}" = "armeabi-v7a-hard-softfp with NEON" ]; then
@@ -127,7 +129,16 @@ do
     ./scripts/build_protobuf_host.sh
     ./scripts/build_protobuf.sh
     ./scripts/build_caffe.sh
-    
-    banner "Completed build for ${ANDROID_ABI}"
 
+    export ASSEMBLY_DIR="${BUILD_ROOT}/caffe"
+    banner "Assembling build for ${ANDROID_ABI_SHORT} into {$ASSEMBLY_DIR}"
+    #[[ -d "${ASSEMBLY_DIR}" ]] && set +e && rm -rf "${ASSEMBLY_DIR}" && set -e
+    mkdir -p "${ASSEMBLY_DIR}"
+    cp -a "${WD}/template/src" "${ASSEMBLY_DIR}"
+    #cp -a "${BUILD_ROOT_ABI}/caffe/include" "${ASSEMBLY_DIR}"
+    mkdir -p "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
+    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
+    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
+
+    banner "Completed build for ${ANDROID_ABI}"
 done
