@@ -7,7 +7,7 @@ OPENBLAS_DIR=openblas-android
 
 WD=$("$READLINK_CMD" -f "`dirname $0`/..")
 export OPENBLAS_DOWNLOAD_DIR=${WD}/download
-export OPENBLAS_INSTALL_DIR=${WD}/android_lib
+export OPENBLAS_INSTALL_DIR=${BUILD_ROOT}
 
 [ ! -d ${OPENBLAS_INSTALL_DIR} ] && mkdir -p ${OPENBLAS_INSTALL_DIR}
 

@@ -3,18 +3,19 @@ jdk: oraclejdk7
 sudo: required
 dist: trusty
 os:
-  - linux
-#  - osx
+#  - linux
+  - osx
 before_install:
   # - chmod +x gradlew
-  - cmake --version
-  - wget http://www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz --no-check-certificate
-  - tar xf cmake-3.4.1.tar.gz
-  - cd cmake-3.4.1
-  - ./configure
-  - make
-  - sudo make install
-  - cd ..
+  #- cmake --version
+  #- wget http://www.cmake.org/files/v3.4/cmake-3.4.1.tar.gz --no-check-certificate
+  #- tar xf cmake-3.4.1.tar.gz
+  #- cd cmake-3.4.1
+  #- ./configure
+  #- make
+  #- sudo make install
+  #- cd ..
+  - brew switch cmake 3.4.1
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
   - export ANDROID_NDK=~/android-ndk-root
   - export ANDROID_SDK=${ANDROID_HOME}
@@ -56,10 +57,7 @@ script:
   # By default Travis-ci executes './gradlew build connectedCheck' if no 'script:' section found.
   - cmake --version 
   - ./build-all.sh
-  - cat <"/home/travis/build/10imaging/caffe-android-lib/opencv/platforms/build_android_arm/armeabi-v7a/CMakeFiles/CMakeOutput.log"
-  - cat <"/home/travis/build/10imaging/caffe-android-lib/opencv/platforms/build_android_arm/armeabi-v7a/CMakeFiles/CMakeError.log"
-  - tar cfvz build.tgz android_lib
-  - ls -la build.tgz
+  - ls -laR build
 notifications:
   email:
     - builds@10imaging.com

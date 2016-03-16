@@ -30,7 +30,6 @@ fi
 TOOLCHAIN_DIR=$ANDROID_NDK/toolchains/$TOOLCHAIN_NAME/prebuilt/${OS}-${BIT}/bin
 WD=$(readlink -f "`dirname $0`/..")
 OPENBLAS_ROOT=${WD}/OpenBLAS
-INSTALL_DIR=${WD}/android_lib/${ANDROID_ABI}
 
 cd "${OPENBLAS_ROOT}"
 
@@ -41,7 +40,7 @@ make -j${BUILD_NUM_CORES} \
      HOSTCC=gcc NO_LAPACK=1 TARGET=ARMV7 \
      USE_THREAD=1 NUM_THREADS=8 USE_OPENMP=1
 
-rm -rf "$INSTALL_DIR/openblas-hard"
-make PREFIX="$INSTALL_DIR/openblas-hard" install
+set +e && rm -rf "${BUILD_ROOT_ABI}/openblas-hard" && set -e
+make PREFIX="${BUILD_ROOT_ABI}/openblas-hard" install
 
 cd "${WD}"

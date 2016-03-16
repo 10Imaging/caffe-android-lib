@@ -10,21 +10,20 @@ else
     ANDROID_NDK="${1:-${ANDROID_NDK}}"
 fi
 
-ANDROID_LIB_ROOT=${WD}/android_lib/${ANDROID_ABI_SHORT}
-OPENCV_HOME=${ANDROID_LIB_ROOT}/opencv/sdk/native/jni
-PROTOBUF_HOME=${ANDROID_LIB_ROOT}/protobuf
-GFLAGS_HOME=${ANDROID_LIB_ROOT}/gflags
-BOOST_HOME=${ANDROID_LIB_ROOT}/boost_1.56.0
+OPENCV_HOME=${BUILD_ROOT_ABI}/opencv/sdk/native/jni
+PROTOBUF_HOME=${BUILD_ROOT_ABI}/protobuf
+GFLAGS_HOME=${BUILD_ROOT_ABI}/gflags
+BOOST_HOME=${BUILD_ROOT_ABI}/boost_1.56.0
 export CAFFE_ROOT=${WD}/caffe
 export CAFFE_BUILD_DIR=${CAFFE_ROOT}/build/${ANDROID_ABI_SHORT}
-export CAFFE_INSTALL_DIR=${ANDROID_LIB_ROOT}/caffe
+export CAFFE_INSTALL_DIR=${BUILD_ROOT_ABI}/caffe
 
 USE_OPENBLAS=${USE_OPENBLAS:-0}
 if [ ${USE_OPENBLAS} -eq 1 ]; then
     if [ "${ANDROID_ABI}" = "armeabi-v7a-hard-softfp with NEON" ]; then
-        OpenBLAS_HOME=${ANDROID_LIB_ROOT}/openblas-hard
+        OpenBLAS_HOME=${BUILD_ROOT_ABI}/openblas-hard
     elif [ "${ANDROID_ABI}" = "armeabi-v7a with NEON"  ]; then
-        OpenBLAS_HOME=${ANDROID_LIB_ROOT}/openblas-android
+        OpenBLAS_HOME=${BUILD_ROOT_ABI}/openblas-android
     else
         echo "Error: not support OpenBLAS for ABI: ${ANDROID_ABI}"
         exit 1
@@ -34,7 +33,7 @@ if [ ${USE_OPENBLAS} -eq 1 ]; then
     export OpenBLAS_HOME="${OpenBLAS_HOME}"
 else
     BLAS=eigen
-    export EIGEN_HOME="${ANDROID_LIB_ROOT}/eigen3"
+    export EIGEN_HOME="${BUILD_ROOT_ABI}/eigen3"
 fi
 
 if [ -n "${REMAKE_CMAKE}" ] ; then
@@ -48,7 +47,7 @@ if [ -n "${REMAKE_CMAKE}" ] ; then
       -DANDROID_NATIVE_API_LEVEL=21 \
       -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
       -DANDROID_USE_OPENMP=ON \
-      -DADDITIONAL_FIND_PATH="${ANDROID_LIB_ROOT}" \
+      -DADDITIONAL_FIND_PATH="${BUILD_ROOT_ABI}" \
       -DBUILD_python=OFF \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=ON \
@@ -61,7 +60,7 @@ if [ -n "${REMAKE_CMAKE}" ] ; then
       -DGFLAGS_INCLUDE_DIR="${GFLAGS_HOME}/include" \
       -DGFLAGS_LIBRARY="${GFLAGS_HOME}/lib/libgflags.a" \
       -DOpenCV_DIR="${OPENCV_HOME}" \
-      -DPROTOBUF_PROTOC_EXECUTABLE="${ANDROID_LIB_ROOT}/protobuf_host/bin/protoc" \
+      -DPROTOBUF_PROTOC_EXECUTABLE="${BUILD_ROOT_ABI}/protobuf_host/bin/protoc" \
       -DPROTOBUF_INCLUDE_DIR="${PROTOBUF_HOME}/include" \
       -DPROTOBUF_LIBRARY="${PROTOBUF_HOME}/lib/libprotobuf.a" \
       -DCMAKE_INSTALL_PREFIX="${CAFFE_INSTALL_DIR}" \
