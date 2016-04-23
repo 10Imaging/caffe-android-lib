@@ -1,9 +1,6 @@
 [submodule "OpenBLAS"]
 	path = OpenBLAS
 	url = https://github.com/xianyi/OpenBLAS.git
-[submodule "protobuf"]
-	path = protobuf
-	url = https://github.com/google/protobuf.git
 [submodule "opencv"]
 	path = opencv
 	url = https://github.com/10imaging/opencv.git
@@ -18,3 +15,6 @@
 	path = caffe-cl
 	url = https://github.com/10imaging/caffe.git
 	branch = opencl
+[submodule "protobuf"]
+	path = protobuf
+	url = https://github.com/10imaging/protobuf.git
