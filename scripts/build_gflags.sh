@@ -28,7 +28,7 @@ if [ ! -d ${GFLAGS_ROOT} ]; then
     tar zxf ${GFLAGS_TARBALL} -C "${WD}"
 fi
 
-if [ -n "${REMAKE_CMAKE}" ] ; then
+if [ -n "${REMAKE_CMAKE}" -o ! -d ${GFLAGS_BUILD_DIR} ] ; then
   set +e && rm -rf "${GFLAGS_BUILD_DIR}" && set -e
   mkdir -p "${GFLAGS_BUILD_DIR}"
   cd "${GFLAGS_BUILD_DIR}"

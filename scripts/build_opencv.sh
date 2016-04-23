@@ -14,7 +14,7 @@ export OPENCV_ROOT=${WD}/opencv
 export OPENCV_BUILD_DIR=$OPENCV_ROOT/platforms/build_android_arm/${ANDROID_ABI_SHORT}
 export OPENCV_INSTALL_DIR=${BUILD_ROOT_ABI}/opencv
 
-if [ -n "${REMAKE_CMAKE}" ] ; then
+if [ -n "${REMAKE_CMAKE}" -o ! -d ${OPENCV_BUILD_DIR} ] ; then
   [[ -d ${OPENCV_BUILD_DIR} ]] && set +e && rm -rf "${OPENCV_BUILD_DIR}" && set -e
   mkdir -p "${OPENCV_BUILD_DIR}"
   cd "${OPENCV_BUILD_DIR}"

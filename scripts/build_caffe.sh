@@ -36,7 +36,7 @@ else
     export EIGEN_HOME="${BUILD_ROOT_ABI}/eigen3"
 fi
 
-if [ -n "${REMAKE_CMAKE}" ] ; then
+if [ -n "${REMAKE_CMAKE}" -o ! -d ${CAFFE_BUILD_DIR} ] ; then
   rm -rf "${CAFFE_BUILD_DIR}"
   mkdir -p "${CAFFE_BUILD_DIR}"
   cd "${CAFFE_BUILD_DIR}"

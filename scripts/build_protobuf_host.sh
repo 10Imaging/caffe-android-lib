@@ -10,7 +10,7 @@ if [ -f "${PROTOBUFHOST_INSTALL_DIR}/bin/protoc" ]; then
     exit 0
 fi
 
-if [ -n "${REMAKE_CMAKE}" ] ; then
+if [ -n "${REMAKE_CMAKE}" -o ! -d ${PROTOBUFHOST_BUILD_DIR} ] ; then
   [[ -d ${PROTOBUFHOST_BUILD_DIR} ]] && set +e && rm -rf "${PROTOBUFHOST_BUILD_DIR}" && set -e
   mkdir -p "${PROTOBUFHOST_BUILD_DIR}"
   cd "${PROTOBUFHOST_BUILD_DIR}"

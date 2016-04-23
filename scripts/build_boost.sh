@@ -18,10 +18,11 @@ cd "${BOOST_ROOT}"
 ./get_boost.sh
 cd "${WD}"
 
-if [ -n "${REMAKE_CMAKE}" ] ; then
+if [ -n "${REMAKE_CMAKE}" -o ! -d ${BOOST_BUILD_DIR} ] ; then
   set +e && rm -rf "${BOOST_BUILD_DIR}" && set -e
   mkdir -p "${BOOST_BUILD_DIR}"
   cd "${BOOST_BUILD_DIR}"
+  #-DCMAKE_VERBOSE_MAKEFILE=on
   cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
         -DANDROID_NDK="${ANDROID_NDK}" \
         -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
