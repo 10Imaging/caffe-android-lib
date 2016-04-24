@@ -112,7 +112,7 @@ do
     else
         ./scripts/get_eigen.sh
     fi
-    
+
     if [ "${TRAVIS}" == "true" -a "${CI}" == "true" ] ; then
       export BUILD_NUM_CORES=1
     else
@@ -132,6 +132,7 @@ do
     ./scripts/build_protobuf_host.sh
     ./scripts/build_protobuf.sh
     ./scripts/build_caffe.sh
+    ./scripts/build_caffe_cl.sh
 
     export ASSEMBLY_DIR="${BUILD_ROOT}/caffe"
     banner "Assembling build for ${ANDROID_ABI_SHORT} into {$ASSEMBLY_DIR}"
@@ -142,6 +143,8 @@ do
     mkdir -p "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
     cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
     cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
+    cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}/libcaffe-cl.so"
+    cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}/libcaffe-cl_jni.so"
 
     banner "Completed build for ${ANDROID_ABI}"
 done

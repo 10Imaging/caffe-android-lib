@@ -15,7 +15,7 @@ export PROTOBUF_BUILD_DIR=${PROTOBUF_ROOT}/build_dir/${ANDROID_ABI_SHORT}
 export PROTOBUF_INSTALL_DIR=${BUILD_ROOT_ABI}/protobuf
 
 if [ -n "${REMAKE_CMAKE}" -o ! -d ${PROTOBUF_BUILD_DIR} ] ; then
-  rm -rf "${PROTOBUF_BUILD_DIR}"
+  [ -d ${PROTOBUF_BUILD_DIR} ] && rm -rf "${PROTOBUF_BUILD_DIR}"
   mkdir -p "${PROTOBUF_BUILD_DIR}"
   cd "${PROTOBUF_BUILD_DIR}"
   cmake -DCMAKE_TOOLCHAIN_FILE="${WD}/android-cmake/android.toolchain.cmake" \
