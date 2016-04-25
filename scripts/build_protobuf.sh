@@ -25,7 +25,7 @@ if [ -n "${REMAKE_CMAKE}" -o ! -d ${PROTOBUF_BUILD_DIR} ] ; then
         -DANDROID_NATIVE_API_LEVEL=21 \
         -DANDROID_TOOLCHAIN_NAME=$TOOLCHAIN_NAME \
         -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_DIR} \
-        -DBUILD_TESTING=OFF \
+        -Dprotobuf_BUILD_TESTS=OFF \
         ../../cmake
 fi
 

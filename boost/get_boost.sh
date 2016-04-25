@@ -18,4 +18,5 @@ if [ ! -d $BOOST_DIR ]; then
     tar -jxf $BOOST_TAR
 fi
 
-patch -N -r - $BOOST_DIR/boost/thread/pthread/thread_data.hpp < patches/thread_data.hpp.patch || exit 0
+patch -N -r - $BOOST_DIR/boost/thread/pthread/thread_data.hpp < patches/thread_data.hpp.patch || echo
+patch -N -r - $BOOST_DIR/boost/config/stdlib/libstdcpp3.hpp < patches/libstdcpp3.hpp.patch || exit 0

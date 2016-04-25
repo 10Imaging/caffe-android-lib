@@ -1,0 +1,12 @@
+--- boost_1_56_0-new/boost/config/stdlib/libstdcpp3.hpp	2016-04-24 10:35:06.000000000 -0700
++++ boost_1_56_0/boost/config/stdlib/libstdcpp3.hpp	2014-06-02 08:06:28.000000000 -0700
+@@ -36,9 +36,10 @@
+         || defined(_GLIBCXX__PTHREADS) \
+         || defined(_GLIBCXX_HAS_GTHREADS) \
+         || defined(_WIN32) \
+-        || defined(_AIX)
++        || defined (__ANDROID__) \
++        || defined(_AIX)
+       //
+       // If the std lib has thread support turned on, then turn it on in Boost
+       // as well.  We do this because some gcc-3.4 std lib headers define _REENTANT
