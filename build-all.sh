@@ -47,17 +47,11 @@ case $i in
 esac
 done
 
-HAS_READLINK=`which ${READLINK_CMD}`
-if [ "$HAS_READLINK" == "" ]; then
-  echo "readlink command (${READLINK_CMD}) is invalid"
-  exit 1
-fi
-
 HAS_WGET=`which wget`
-if [ "$HAS_WGET" == "" ]; then
-  echo "wget command is invalid"
-  exit 1
-fi
+[[ -z "$HAS_WGET" ]] && echo "wget command is invalid" && exit 1
+
+HAS_READLINK=`which ${READLINK_CMD}`
+[[ -z "$HAS_READLINK" ]] && echo "readlink command (${READLINK_CMD}) is invalid" && exit 1
 
 if [ -z "${ANDROID_NDK}" ] && [ "$#" -eq 0 ]; then
     echo 'Either $ANDROID_NDK should be set or provided as argument'

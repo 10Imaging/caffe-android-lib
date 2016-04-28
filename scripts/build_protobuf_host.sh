@@ -15,7 +15,7 @@ if [ -n "${REMAKE_CMAKE}" -o ! -d ${PROTOBUFHOST_BUILD_DIR} ] ; then
   mkdir -p "${PROTOBUFHOST_BUILD_DIR}"
   cd "${PROTOBUFHOST_BUILD_DIR}"
   cmake -DCMAKE_INSTALL_PREFIX="${PROTOBUFHOST_INSTALL_DIR}" \
-        -DBUILD_TESTING=OFF \
+        -Dprotobuf_BUILD_TESTS=OFF \
         ../../cmake
 fi
 
