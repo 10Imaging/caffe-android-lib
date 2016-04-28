@@ -3,8 +3,8 @@ jdk: oraclejdk7
 sudo: required
 dist: trusty
 os:
-#  - linux
-  - osx
+  - linux
+#  - osx
 before_install:
   # - chmod +x gradlew
   #- cmake --version
@@ -15,6 +15,8 @@ before_install:
   #- make
   #- sudo make install
   #- cd ..
+  #- wget http://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip
+  #- gunzip android-ndk-r11c-linux-x86_64.zip
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk-root
   - export ANDROID_NDK=~/android-ndk-root
   - export ANDROID_SDK=${ANDROID_HOME}
