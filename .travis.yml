@@ -21,7 +21,7 @@ before_install:
   - export ANDROID_NDK=~/android-ndk-root
   - export ANDROID_SDK=${ANDROID_HOME}
   - export DEBUG_BUILD=true
-  - brew switch cmake 3.4.1
+  #- brew switch cmake 3.4.1
   - export
 addons:
   apt:
