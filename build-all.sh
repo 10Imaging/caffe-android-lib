@@ -73,7 +73,7 @@ declare -a TARGETS_ROOT=("armeabi-v7a" "arm64-v8a")
 git submodule update
 
 # build each target
-for (( INDEX=0; INDEX < ${#TARGETS[@]} ; INDEX++ )) ; 
+for (( INDEX=0; INDEX < ${#TARGETS[@]} ; INDEX++ )) ;
 do
     export BUILD_ROOT=${WD}/build
     export ANDROID_ABI=${TARGETS[$INDEX]}
@@ -92,7 +92,7 @@ do
     fi
 
     banner "Building Android TARGET ${ANDROID_ABI} into ${BUILD_ROOT_ABI}"
-    
+
     if [ ${USE_OPENBLAS} -eq 1 ]; then
         if [ "${ANDROID_ABI}" = "armeabi-v7a-hard-softfp with NEON" ]; then
             ./scripts/build_openblas_hard.sh
@@ -126,7 +126,7 @@ do
     ./scripts/build_protobuf_host.sh
     ./scripts/build_protobuf.sh
     ./scripts/build_caffe.sh
-    ./scripts/build_caffe_cl.sh
+    #./scripts/build_caffe_cl.sh
 
     export ASSEMBLY_DIR="${BUILD_ROOT}/caffe"
     banner "Assembling build for ${ANDROID_ABI_SHORT} into {$ASSEMBLY_DIR}"
@@ -134,11 +134,11 @@ do
     mkdir -p "${ASSEMBLY_DIR}"
     cp -a "${WD}/template/src" "${ASSEMBLY_DIR}"
     #cp -a "${BUILD_ROOT_ABI}/caffe/include" "${ASSEMBLY_DIR}"
-    mkdir -p "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
-    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
-    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}"
-    cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}/libcaffe-cl.so"
-    cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jniLibs/${ANDROID_ABI_SHORT}/libcaffe-cl_jni.so"
+    mkdir -p "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
+    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
+    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
+    #cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}/libcaffe-cl.so"
+    #cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}/libcaffe-cl_jni.so"
 
     banner "Completed build for ${ANDROID_ABI}"
 done

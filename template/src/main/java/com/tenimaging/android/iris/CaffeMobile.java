@@ -1,4 +1,4 @@
-package com.tenimaging.android.caffe;
+package com.tenimaging.android.iris;
 
 public class CaffeMobile {
     public native void setNumThreads(int numThreads);
