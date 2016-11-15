@@ -132,11 +132,11 @@ do
     banner "Assembling build for ${ANDROID_ABI_SHORT} into {$ASSEMBLY_DIR}"
     #[[ -d "${ASSEMBLY_DIR}" ]] && set +e && rm -rf "${ASSEMBLY_DIR}" && set -e
     mkdir -p "${ASSEMBLY_DIR}"
-    cp -a "${WD}/template/src" "${ASSEMBLY_DIR}"
+    cp -av "${WD}/template/src" "${ASSEMBLY_DIR}"
     #cp -a "${BUILD_ROOT_ABI}/caffe/include" "${ASSEMBLY_DIR}"
     mkdir -p "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
-    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
-    cp -a "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
+    cp -avL "${BUILD_ROOT_ABI}/caffe/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
+    cp -av "${BUILD_ROOT_ABI}/caffe/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}"
     #cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}/libcaffe-cl.so"
     #cp -a "${BUILD_ROOT_ABI}/caffe-cl/lib/libcaffe_jni.so" "${ASSEMBLY_DIR}/src/main/jnilibs/${ANDROID_ABI_SHORT}/libcaffe-cl_jni.so"
 
