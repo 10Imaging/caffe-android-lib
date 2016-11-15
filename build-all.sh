@@ -69,9 +69,6 @@ cd ${PWD}
 declare -a TARGETS=("armeabi-v7a with NEON" "arm64-v8a")
 declare -a TARGETS_ROOT=("armeabi-v7a" "arm64-v8a")
 
-# update all submodules to latest versions
-git submodule update
-
 # build each target
 for (( INDEX=0; INDEX < ${#TARGETS[@]} ; INDEX++ )) ;
 do
