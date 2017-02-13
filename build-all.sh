@@ -23,6 +23,7 @@ if [[ "$OSTYPE" == *darwin* ]] ; then
     # use brew install coreutils for greadlink and gsed
     export READLINK_CMD='greadlink'
     export SED_CMD='gsed'
+    [ -z `which greadlink` ] && echo "run 'brew install coreutils' to install greadlink and gsed"
 else
     export READLINK_CMD='readlink'
     export SED_CMD='sed'
