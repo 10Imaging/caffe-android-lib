@@ -2,6 +2,7 @@ Caffe-Android-Lib
 ===============
 ## Status
 [![Travis-CI-Build](https://travis-ci.org/10imaging/caffe-android-lib.svg?branch=master)](https://travis-ci.org/10imaging/caffe-android-lib)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F10imaging%2Fcaffe-android-lib.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2F10imaging%2Fcaffe-android-lib?ref=badge_shield)
 
 ## Goal
 Porting [caffe](https://github.com/BVLC/caffe) to android platform
@@ -58,3 +59,7 @@ Thanks.
 ## Dependency
 * Eigen 3
 * ...
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F10imaging%2Fcaffe-android-lib.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2F10imaging%2Fcaffe-android-lib?ref=badge_large)
