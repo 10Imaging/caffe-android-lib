@@ -1,5 +1,6 @@
 node ('master') {
   step([$class: 'GitHubSetCommitStatusBuilder'])
+  agent { label 'ubuntu-16-04' }
 
   stage('Checkout') {
     checkout scm
