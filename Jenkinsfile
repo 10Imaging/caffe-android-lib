@@ -14,7 +14,9 @@ pipeline {
         echo "Build#: ${env.BUILD_NUMBER}"
         echo "ID: ${env.CHANGE_ID}"
         echo "Author: ${env.CHANGE_AUTHOR}"
-        env.DEBUG_BUILD="true"
+        environment {
+          DEBUG_BUILD = "true"
+        }
         sh "rm -rf build"
         sh "./build-all.sh clean"
       }
