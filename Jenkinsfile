@@ -2,7 +2,6 @@ pipeline {
   agent { label 'master' }
 
   stages {
-    agent { label 'ubuntu-16-04' }
     stage('Checkout') {
       steps {
         checkout scm
